@@ -55,16 +55,20 @@ const SELF_CARE_ITEMS = [
 
 const FAQ_ITEMS = [
   {
-    q: "Is MoodBuddy a mental health or medical diagnostic tool?",
-    a: "No. MoodBuddy is a light-hearted supportive college project. It does not diagnose, treat, or manage clinical conditions like depression or anxiety. It is simply a safe space to check in on daily feelings."
+    q: "What is MoodBuddy designed to help with?",
+    a: "MoodBuddy is a supportive space to pause, check in on your current emotional state, and engage in calming activities. It helps you process your daily energy levels and recommends customized exercises to release stress."
   },
   {
-    q: "Where is my mood history data stored?",
-    a: "All your check-ins are saved in your local PostgreSQL database on your machine. Your personal notes, colors, and mood choices remain strictly private and local to your system."
+    q: "How does the mood analysis recommendation work?",
+    a: "Once you check in by choosing a mood, color, and tags, our friendly AI scans your entry and streams back a personalized, comforting message. It also highlights the exercise (like breathing, music, or doodling) that best fits your vibe."
   },
   {
-    q: "What if I do not have a Gemini API key configured?",
-    a: "MoodBuddy features an automatic mock streaming fallback. If no key is configured in your backend `.env` file, the app simulates streamed validation so the interface remains fully interactive and testable!"
+    q: "Why is the website fully anonymous?",
+    a: "We believe self-care should be frictionless. MoodBuddy does not require any login, emails, or personal accounts. Anyone can open the page, check in anonymously, and use the calming exercises immediately without sharing personal credentials."
+  },
+  {
+    q: "What calming activities can I access on MoodBuddy?",
+    a: "We provide four custom tools: the Breathing Rainbow box-breathing visualizer, curated Music Suggestions (piano & lo-fi streams), the Mood Doodle sketchpad, and a fast-paced Color Match Rush reaction game."
   }
 ];
 

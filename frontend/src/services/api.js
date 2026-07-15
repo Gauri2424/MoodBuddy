@@ -1,4 +1,9 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+// Automatically switch URLs depending on environment:
+// - Local development (dev server on 5173): Uses VITE_API_BASE_URL (http://localhost:5000/api)
+// - Production build (deployed on AWS): Uses relative path '/api' to avoid cross-domain issues
+const API_BASE_URL = import.meta.env.DEV
+  ? (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api')
+  : '/api';
 
 /**
  * Standard fetch helper for JSON APIs
