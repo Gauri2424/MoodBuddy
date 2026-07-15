@@ -45,24 +45,24 @@ CRITICAL RULES:
 `;
 };
 
+// Target the single confirmed working model for your project
+const ACTIVE_MODEL = 'gemini-2.0-flash';
+
 /**
- * Streams the mood analysis response from Gemini API, or falls back to a realistic mock stream.
- * @param {Object} data Mood data containing mood, color, tags, and note.
- * @param {Function} onChunk Callback triggered when a new token chunk is received.
- * @param {Function} onDone Callback triggered when streaming is complete.
- * @param {Function} onError Callback triggered when an error occurs.
+ * Streams the mood analysis response from Gemini API,
+ * or falls back to a realistic mock stream.
  */
 export const streamMoodAnalysis = async (data, onChunk, onDone, onError) => {
   const { mood, color, tags, note } = data;
   const prompt = buildPrompt(mood, color, tags, note);
 
-  // If Gemini API is not configured, trigger the mock streaming fallback
   if (!genAI) {
     return handleMockStream(data, onChunk, onDone);
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    console.log(`Sending mood stream analysis request using: ${ACTIVE_MODEL}...`);
+    const model = genAI.getGenerativeModel({ model: ACTIVE_MODEL });
     const result = await model.generateContentStream(prompt);
 
     let fullText = '';
@@ -73,10 +73,16 @@ export const streamMoodAnalysis = async (data, onChunk, onDone, onError) => {
     }
     
     onDone(fullText);
+    console.log(`Streaming analysis successfully completed using model: ${ACTIVE_MODEL}`);
   } catch (error) {
-    console.error('Gemini API Streaming Error:', error.message);
+    console.error(`Gemini API Error with ${ACTIVE_MODEL}:`, error.message);
+    
+    // Check if it is a quota/rate limit error
+    if (error.message.includes('Quota') || error.message.includes('429') || error.message.includes('ResourceExhausted')) {
+      console.warn('Rate limit exceeded. Try waiting 30 seconds.');
+    }
+    
     console.log('Switching to mock stream fallback due to error...');
-    // Fall back to mock stream on actual API failure
     handleMockStream(data, onChunk, onDone);
   }
 };

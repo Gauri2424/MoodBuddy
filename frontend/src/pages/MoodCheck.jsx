@@ -78,7 +78,7 @@ export default function MoodCheck() {
       <div class="clay-card p-6 bg-white/70 border-white/60">
         <div class="flex items-center justify-between mb-4">
           <div>
-            <span class="text-xs font-bold text-violet-500 uppercase tracking-widest">Check-In Flow</span>
+            <span class="text-xs font-bold text-pink-500 uppercase tracking-widest">Check-In Flow</span>
             <h2 class="text-xl font-bold text-slate-800 font-display mt-0.5">How's your day, Buddy?</h2>
           </div>
           <span class="text-sm font-black text-slate-400">{step} / 5</span>
@@ -87,7 +87,7 @@ export default function MoodCheck() {
         {/* Progress Bar Container */}
         <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
           <div
-            class="h-full bg-gradient-to-r from-violet-500 to-pink-500 rounded-full transition-all duration-300"
+            class="h-full bg-gradient-to-r from-pink-500 to-rose-400 rounded-full transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           ></div>
         </div>
@@ -107,7 +107,7 @@ export default function MoodCheck() {
                   key={opt.name}
                   onClick={() => handleMoodSelect(opt.name)}
                   class={`flex flex-col items-center justify-center p-4 rounded-2xl border transition-all hover:scale-105 active:scale-95 ${opt.color} ${
-                    mood === opt.name ? 'ring-2 ring-violet-500 scale-[1.03] shadow-clay-sm' : 'bg-white shadow-clay-sm'
+                    mood === opt.name ? 'ring-2 ring-pink-500 scale-[1.03] shadow-clay-sm' : 'bg-white shadow-clay-sm'
                   }`}
                 >
                   <span class="text-3xl mb-2">{opt.emoji}</span>
@@ -130,7 +130,7 @@ export default function MoodCheck() {
                   onClick={() => handleColorSelect(opt.name)}
                   style={{ backgroundColor: opt.hex }}
                   class={`w-12 h-12 rounded-full shadow-clay-md transition-all hover:scale-110 active:scale-90 flex items-center justify-center ${
-                    color === opt.name ? 'ring-4 ring-violet-500 ring-offset-4 scale-105' : ''
+                    color === opt.name ? 'ring-4 ring-pink-500 ring-offset-4 scale-105' : ''
                   }`}
                   title={opt.desc}
                 >
@@ -163,7 +163,7 @@ export default function MoodCheck() {
                     onClick={() => toggleTag(tag)}
                     class={`px-4 py-2.5 rounded-full text-xs font-semibold transition-all border ${
                       isSelected
-                        ? 'bg-violet-500 text-white border-violet-500 shadow-clay-sm scale-[1.02]'
+                        ? 'bg-pink-500 text-white border-pink-500 shadow-clay-sm scale-[1.02]'
                         : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
@@ -187,7 +187,7 @@ export default function MoodCheck() {
                 onChange={(e) => setNote(e.target.value.substring(0, 200))}
                 placeholder="Today, I worked on my project and..."
                 rows={5}
-                class="w-full p-4 border border-slate-200 rounded-3xl focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none text-sm text-slate-700 bg-white/50 shadow-inner"
+                class="w-full p-4 border border-slate-200 rounded-3xl focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none text-sm text-slate-700 bg-white/50 shadow-inner"
               />
               <div class="absolute bottom-4 right-4 text-xs font-bold text-slate-400 bg-slate-50/80 px-2 py-1 rounded-lg">
                 {note.length} / 200
@@ -199,7 +199,7 @@ export default function MoodCheck() {
         {/* STEP 5: Final Confirmation Overview */}
         {step === 5 && (
           <div class="animate-fade-in text-center">
-            <div class="w-16 h-16 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center mx-auto mb-4 shadow-clay-sm">
+            <div class="w-16 h-16 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center mx-auto mb-4 shadow-clay-sm">
               <BrainCircuit class="w-8 h-8" />
             </div>
             <h3 class="text-xl font-bold text-slate-800 mb-2">Ready for analysis!</h3>
@@ -232,14 +232,14 @@ export default function MoodCheck() {
             <button
               onClick={nextStep}
               disabled={(step === 1 && !mood) || (step === 2 && !color)}
-              class="flex items-center gap-1 px-6 py-2.5 bg-violet-600 hover:bg-violet-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-violet-100"
+              class="flex items-center gap-1 px-6 py-2.5 bg-pink-500 hover:bg-pink-600 disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-pink-100"
             >
               Next <ChevronRight class="w-4 h-4" />
             </button>
           ) : (
             <button
               onClick={handleAnalyze}
-              class="flex items-center gap-2 px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm rounded-xl transition-transform hover:scale-105 shadow-md shadow-violet-200"
+              class="flex items-center gap-2 px-8 py-3 bg-pink-500 hover:bg-pink-600 text-white font-bold text-sm rounded-xl transition-transform hover:scale-105 shadow-md shadow-pink-200"
             >
               <BrainCircuit class="w-4.5 h-4.5" /> Analyze My Mood
             </button>

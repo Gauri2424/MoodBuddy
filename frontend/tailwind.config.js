@@ -11,16 +11,16 @@ export default {
       },
       colors: {
         brand: {
-          50: '#f5f7ff',
-          100: '#ebf0ff',
-          200: '#dbe3ff',
-          300: '#bfcdff',
-          400: '#99adff',
-          500: '#6680ff',
-          600: '#334cff',
-          700: '#1a30e6',
-          800: '#1423bf',
-          900: '#111e99',
+          50: '#fff1f2',
+          100: '#ffe4e6',
+          200: '#fecdd3',
+          300: '#fda4af',
+          400: '#fb7185',
+          500: '#f43f5e', // Primary Rose Pink
+          600: '#e11d48',
+          700: '#be123c',
+          800: '#9f1239',
+          900: '#881337',
         },
         mood: {
           yellow: { DEFAULT: '#FFD966', light: '#FFF9E6', text: '#8F6B00' },

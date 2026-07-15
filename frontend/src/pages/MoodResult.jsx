@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { Sparkles, ArrowRight, Heart, RefreshCw, AlertCircle } from 'lucide-react';
+import { Sparkles, Heart, RefreshCw, AlertCircle, Wind, Palette, Disc, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { moodService } from '../services/api';
 
@@ -26,6 +26,45 @@ const COLOR_TEXT_MAP = {
   Red: 'text-rose-800',
 };
 
+const GAME_CARDS = [
+  {
+    id: 'breathe',
+    name: 'Breathing Rainbow',
+    desc: 'Deep box-breathing cycle',
+    icon: Wind,
+    colorClass: 'bg-pink-50 border-pink-100 hover:border-pink-300 text-pink-600',
+    glowClass: 'ring-2 ring-pink-400 glow-pulse-pink',
+    keywords: ['breath', 'breathing', 'rainbow', 'lungs'],
+  },
+  {
+    id: 'music',
+    name: 'Music Suggestions',
+    desc: 'calming lofi & piano streams',
+    icon: Disc,
+    colorClass: 'bg-indigo-50 border-indigo-100 hover:border-indigo-300 text-indigo-600',
+    glowClass: 'ring-2 ring-indigo-400 glow-pulse-indigo',
+    keywords: ['music', 'lo-fi', 'lofi', 'ambient', 'piano', 'sound', 'rain'],
+  },
+  {
+    id: 'doodle',
+    name: 'Mood Doodle',
+    desc: 'Digital feeling drawing pad',
+    icon: Palette,
+    colorClass: 'bg-emerald-50 border-emerald-100 hover:border-emerald-300 text-emerald-600',
+    glowClass: 'ring-2 ring-emerald-400 glow-pulse-emerald',
+    keywords: ['doodle', 'draw', 'sketch', 'paint', 'canvas', 'feeling doodle'],
+  },
+  {
+    id: 'game',
+    name: 'Color Match Rush',
+    desc: 'Reflex reaction matching game',
+    icon: Zap,
+    colorClass: 'bg-amber-50 border-amber-100 hover:border-amber-300 text-amber-600',
+    glowClass: 'ring-2 ring-amber-400 glow-pulse-amber',
+    keywords: ['game', 'match', 'rush', 'color match', 'reflex', 'reaction'],
+  },
+];
+
 export default function MoodResult() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,12 +73,12 @@ export default function MoodResult() {
   const [streaming, setStreaming] = useState(true);
   const [error, setError] = useState('');
   const [dbRecord, setDbRecord] = useState(null);
+  const [recommendedActivity, setRecommendedActivity] = useState(null);
 
   // Read data passed from checkin page
   const checkInData = location.state;
 
   useEffect(() => {
-    // If user lands here directly without submitting mood, send them to dashboard
     if (!checkInData || !checkInData.mood || !checkInData.color) {
       navigate('/dashboard');
       return;
@@ -65,15 +104,15 @@ export default function MoodResult() {
           setStreaming(false);
           setDbRecord(savedEntry);
           
-          // Trigger confetti explosion for premium feel
+          // Trigger confetti explosion
           try {
             confetti({
-              particleCount: 80,
-              spread: 60,
+              particleCount: 100,
+              spread: 70,
               origin: { y: 0.6 }
             });
           } catch (e) {
-            console.warn('Confetti blocked or failed:', e);
+            console.warn('Confetti blocked:', e);
           }
         }
       },
@@ -92,23 +131,38 @@ export default function MoodResult() {
     };
   }, [checkInData, navigate]);
 
+  // Scan AI text response to auto-recommend a game card
+  useEffect(() => {
+    if (!streaming && streamText) {
+      const lowerText = streamText.toLowerCase();
+      
+      // Match keywords
+      const matched = GAME_CARDS.find(card => 
+        card.keywords.some(keyword => lowerText.includes(keyword))
+      );
+
+      if (matched) {
+        setRecommendedActivity(matched.id);
+      }
+    }
+  }, [streaming, streamText]);
+
   if (!checkInData) return null;
 
   const bgStyle = COLOR_BG_MAP[checkInData.color] || 'bg-white/70 border-white/60';
-  const textStyle = COLOR_TEXT_MAP[checkInData.color] || 'text-slate-800';
 
   return (
-    <div class="max-w-2xl mx-auto px-4 py-8 flex flex-col gap-6 animate-fade-in">
+    <div class="max-w-3xl mx-auto px-4 py-8 flex flex-col gap-6 animate-fade-in">
       
       {/* AI Streaming Card */}
       <div class={`clay-card p-6 md:p-8 border ${bgStyle}`}>
         <div class="flex items-center justify-between border-b border-slate-200/40 pb-4 mb-6">
           <div class="flex items-center gap-2">
             <div class="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-clay-sm animate-pulse">
-              <Sparkles class="w-4.5 h-4.5 text-violet-500 fill-violet-400" />
+              <Sparkles class="w-4.5 h-4.5 text-pink-500 fill-pink-400" />
             </div>
             <div>
-              <h2 class="text-base font-bold text-slate-800 font-display">MoodBuddy Advice</h2>
+              <h2 class="text-base font-bold text-slate-800 font-display">MoodBuddy Insights</h2>
               <span class="text-[10px] text-slate-400 font-bold uppercase">Non-clinical AI Companion</span>
             </div>
           </div>
@@ -123,7 +177,7 @@ export default function MoodResult() {
             <div>
               {streamText}
               {streaming && (
-                <span class="inline-block w-2.5 h-4 ml-1 bg-violet-600 animate-pulse rounded-sm align-middle"></span>
+                <span class="inline-block w-2.5 h-4 ml-1 bg-pink-500 animate-pulse rounded-sm align-middle"></span>
               )}
             </div>
           ) : (
@@ -143,43 +197,76 @@ export default function MoodResult() {
           )}
         </div>
 
-        {/* Small encouragement tag */}
         {!streaming && !error && (
           <div class="flex items-center gap-1.5 mt-5 text-[10px] text-slate-400 font-semibold bg-white/30 px-3.5 py-1.5 rounded-full w-max border border-white/20">
-            <Heart class="w-3.5 h-3.5 text-rose-400 fill-rose-300" /> Validation and exercises complete
+            <Heart class="w-3.5 h-3.5 text-rose-400 fill-rose-300" /> Analysis Complete
           </div>
         )}
       </div>
 
-      {/* Suggested Activities Portal */}
+      {/* Suggested Activities Portal with Glowing Recommendation Highlight */}
       {!streaming && (
-        <div class="clay-card p-6 bg-white/70 border-white/60 animate-slide-up">
-          <h3 class="text-base font-bold text-slate-800 mb-2">Recommended Next Step</h3>
-          <p class="text-xs text-slate-500 mb-6">
-            Take a few minutes for yourself with one of MoodBuddy's play activities.
-          </p>
+        <div class="clay-card p-6 md:p-8 bg-white/70 border-white/60 animate-slide-up">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800">Your Calming Hub</h3>
+              <p class="text-xs text-slate-500 mt-0.5">
+                {recommendedActivity 
+                  ? "Based on your reflection, we highlighted an activity to try below."
+                  : "Pick an activity to help rest your mind and shift your energy."}
+              </p>
+            </div>
+          </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <Link
-              to="/activities"
-              class="clay-card-flat p-4 bg-violet-50/50 hover:bg-violet-50 hover:scale-[1.01] transition-all border border-violet-100 flex items-center justify-between text-slate-700"
-            >
-              <div>
-                <h4 class="font-bold text-sm text-violet-700">Calming Exercises</h4>
-                <p class="text-[10px] text-slate-500 mt-0.5">Doodle, Breathe, Game, or Music</p>
-              </div>
-              <ArrowRight class="w-4 h-4 text-violet-500" />
-            </Link>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+            {GAME_CARDS.map((card) => {
+              const Icon = card.icon;
+              const isRecommended = recommendedActivity === card.id;
+              
+              // Custom floating/pulse styles for the recommended card
+              const pulseStyle = isRecommended 
+                ? 'ring-2 ring-pink-500 shadow-xl scale-[1.01] animate-pulse'
+                : 'shadow-clay-sm hover:scale-[1.01]';
+              
+              // Spin the disk, flash the zap, wave the doodle, or pulse the breathing ring
+              const iconAnimClass = isRecommended
+                ? card.id === 'music' ? 'animate-spin'
+                  : card.id === 'game' ? 'animate-bounce'
+                  : card.id === 'breathe' ? 'animate-pulse'
+                  : 'animate-bounce' // Doodle
+                : '';
 
+              return (
+                <Link
+                  key={card.id}
+                  to="/activities"
+                  class={`clay-card p-5 border text-left flex gap-4 items-start transition-all duration-300 ${card.colorClass} ${pulseStyle}`}
+                >
+                  <div class={`w-11 h-11 rounded-xl bg-white flex items-center justify-center shadow-clay-sm flex-shrink-0 ${iconAnimClass}`}>
+                    <Icon class="w-5.5 h-5.5" />
+                  </div>
+                  <div>
+                    {isRecommended && (
+                      <span class="inline-block bg-pink-500 text-white text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full mb-1">
+                        Recommended
+                      </span>
+                    )}
+                    <h4 class="font-bold text-sm text-slate-800">{card.name}</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5 leading-relaxed">{card.desc}</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div class="h-[1px] bg-slate-100 my-6"></div>
+
+          <div class="flex justify-end">
             <Link
               to="/dashboard"
-              class="clay-card-flat p-4 bg-slate-50/50 hover:bg-slate-50 hover:scale-[1.01] transition-all border border-slate-200/50 flex items-center justify-between text-slate-700"
+              class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl shadow-clay-btn transition-colors"
             >
-              <div>
-                <h4 class="font-bold text-sm text-slate-700">Back to Dashboard</h4>
-                <p class="text-[10px] text-slate-500 mt-0.5">View your updated history chart</p>
-              </div>
-              <ArrowRight class="w-4 h-4 text-slate-400" />
+              Back to Dashboard
             </Link>
           </div>
         </div>

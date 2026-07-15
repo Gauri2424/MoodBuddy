@@ -3,7 +3,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import moodRouter from './routes/mood.js';
-import profileRouter from './routes/profile.js';
 import errorHandler from './middleware/errorHandler.js';
 
 dotenv.config();
@@ -32,7 +31,6 @@ app.get('/api/health', (req, res) => {
 
 // Register routers
 app.use('/api/moods', moodRouter);
-app.use('/api/profile', profileRouter);
 
 // Catch-all 404 handler
 app.use((req, res, next) => {

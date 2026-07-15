@@ -20,7 +20,7 @@ const pool = new Pool({
 // Helper for running queries
 export const query = (text, params) => pool.query(text, params);
 
-// SQL script to initialize tables
+// SQL script to initialize tables (Mood entries only, fully anonymous)
 const initDbSql = `
   CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
@@ -33,16 +33,9 @@ const initDbSql = `
     note VARCHAR(200),
     ai_summary TEXT NOT NULL
   );
-
-  CREATE TABLE IF NOT EXISTS user_profiles (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(100) DEFAULT 'Buddy',
-    avatar VARCHAR(50) DEFAULT '🦊',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-  );
 `;
 
-// Initialize the database tables and insert initial profile if none exists
+// Initialize the database tables
 export const initDatabase = async () => {
   try {
     // Check connection
@@ -53,20 +46,9 @@ export const initDatabase = async () => {
     // Create tables
     await query(initDbSql);
     console.log('Database tables verified/created successfully.');
-
-    // Seed default user profile if the table is completely empty
-    const profileCheck = await query('SELECT COUNT(*) FROM user_profiles');
-    if (parseInt(profileCheck.rows[0].count, 10) === 0) {
-      await query(
-        "INSERT INTO user_profiles (name, avatar) VALUES ($1, $2)",
-        ['Buddy', '🦊']
-      );
-      console.log('Seeded default user profile in the database.');
-    }
   } catch (error) {
     console.error('Error initializing database:', error.message);
     console.error('Please make sure PostgreSQL is running and the DATABASE_URL in your .env file is correct.');
-    // We do not crash the app immediately to allow users to update their .env variables
   }
 };
 

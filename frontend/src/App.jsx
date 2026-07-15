@@ -6,7 +6,6 @@ import Dashboard from './pages/Dashboard';
 import MoodCheck from './pages/MoodCheck';
 import MoodResult from './pages/MoodResult';
 import Activities from './pages/Activities';
-import Profile from './pages/Profile';
 
 // App Layout wrapper to include the navigation bar on active application routes
 function AppLayout() {
@@ -33,7 +32,6 @@ export default function App() {
           <Route path="/checkin" element={<MoodCheck />} />
           <Route path="/result" element={<MoodResult />} />
           <Route path="/activities" element={<Activities />} />
-          <Route path="/profile" element={<Profile />} />
         </Route>
         
         {/* Catch-all Wildcard Redirect to Landing */}

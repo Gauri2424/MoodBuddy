@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    background-color: #f7f9fc;
+    background-color: #fff8f8;
     color: #1e293b;
     font-family: 'Inter', 'Poppins', sans-serif;
   }
@@ -13,33 +13,33 @@
 @layer utilities {
   /* Claymorphic 3D Matte Card Style */
   .clay-card {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     box-shadow: 
-      0 10px 30px -10px rgba(0, 0, 0, 0.04),
+      0 10px 30px -10px rgba(188, 80, 110, 0.05),
       inset 0 3px 6px rgba(255, 255, 255, 0.8),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.02);
+      inset 0 -3px 6px rgba(0, 0, 0, 0.01);
     border-radius: 28px;
   }
 
   .clay-card-flat {
     background: rgba(255, 255, 255, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     box-shadow: 
-      0 4px 12px rgba(0, 0, 0, 0.02),
+      0 4px 12px rgba(188, 80, 110, 0.02),
       inset 0 2px 4px rgba(255, 255, 255, 0.7);
     border-radius: 20px;
   }
 
-  /* Claymorphic 3D Matte Button */
+  /* Claymorphic 3D Matte Button with physical press down */
   .clay-btn {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.6);
     box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.03),
-      0 2px 4px -1px rgba(0, 0, 0, 0.02),
+      0 4px 6px -1px rgba(188, 80, 110, 0.03),
+      0 2px 4px -1px rgba(188, 80, 110, 0.02),
       inset 0 2px 3px rgba(255, 255, 255, 0.9),
       inset 0 -2px 3px rgba(0, 0, 0, 0.02);
     border-radius: 16px;
@@ -49,15 +49,15 @@
   .clay-btn:hover {
     transform: translateY(-2px);
     box-shadow:
-      0 8px 16px -2px rgba(0, 0, 0, 0.05),
+      0 8px 16px -2px rgba(188, 80, 110, 0.05),
       inset 0 2px 3px rgba(255, 255, 255, 0.9);
   }
 
   .clay-btn:active {
-    transform: translateY(1px);
+    transform: translateY(2px);
     box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.02),
-      inset 0 2px 3px rgba(0, 0, 0, 0.03);
+      0 1px 2px rgba(0, 0, 0, 0.01),
+      inset 0 2px 3px rgba(0, 0, 0, 0.04);
   }
 
   /* Dynamic Custom Animations */
@@ -72,6 +72,28 @@
   .animate-scale-up {
     animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   }
+
+  /* Floating Animation Blobs */
+  .animate-float-slow {
+    animation: floatBlob 25s ease-in-out infinite;
+  }
+
+  .animate-float-medium {
+    animation: floatBlobSecondary 20s ease-in-out infinite;
+  }
+
+  /* Bouncing Hover Effects for Emojis */
+  .bounce-hover {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .bounce-hover:hover {
+    transform: scale(1.25) translateY(-5px);
+  }
+
+  /* Pulse Glow for Recommended Games */
+  .glow-pulse-pink {
+    animation: glowPulseRose 2s infinite alternate;
+  }
 }
 
 /* Animations Definitions */
@@ -83,7 +105,7 @@
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(25px);
   }
   to {
     opacity: 1;
@@ -102,25 +124,59 @@
   }
 }
 
+/* Floating Blob Keyframes */
+@keyframes floatBlob {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+  }
+  33% {
+    transform: translateY(-30px) translateX(40px) scale(1.15);
+  }
+  66% {
+    transform: translateY(20px) translateX(-20px) scale(0.9);
+  }
+}
+
+@keyframes floatBlobSecondary {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+  }
+  50% {
+    transform: translateY(40px) translateX(-30px) scale(1.2);
+  }
+}
+
 /* Breathing Rainbow Animations */
 @keyframes breathingExpand {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 0 20px rgba(108, 155, 207, 0.2);
+    box-shadow: 0 0 20px rgba(244, 63, 94, 0.2);
   }
   33.33% {
     transform: scale(1.6);
-    box-shadow: 0 0 50px rgba(167, 139, 250, 0.5);
+    box-shadow: 0 0 50px rgba(244, 63, 94, 0.5);
   }
   66.66% {
     transform: scale(1.6);
-    box-shadow: 0 0 50px rgba(167, 139, 250, 0.5);
+    box-shadow: 0 0 50px rgba(244, 63, 94, 0.5);
   }
 }
 
 .breathing-rainbow-animation {
   /* 12 second loop: 4s expand (in), 4s hold, 4s contract (out) */
   animation: breathingExpand 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes glowPulseRose {
+  0% {
+    box-shadow: 0 0 5px rgba(244, 63, 94, 0.2), 0 0 10px rgba(244, 63, 94, 0.1);
+    border-color: rgba(244, 63, 94, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(244, 63, 94, 0.6), 0 0 30px rgba(244, 143, 177, 0.3);
+    border-color: rgba(244, 63, 94, 0.8);
+    transform: scale(1.02);
+  }
 }
 
 /* Hide scrollbar default styles but allow scrolling */
