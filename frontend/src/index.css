@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #f7f9fc;
+    color: #1e293b;
+    font-family: 'Inter', 'Poppins', sans-serif;
+  }
+}
+
+@layer utilities {
+  /* Claymorphic 3D Matte Card Style */
+  .clay-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+      0 10px 30px -10px rgba(0, 0, 0, 0.04),
+      inset 0 3px 6px rgba(255, 255, 255, 0.8),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.02);
+    border-radius: 28px;
+  }
+
+  .clay-card-flat {
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.02),
+      inset 0 2px 4px rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+  }
+
+  /* Claymorphic 3D Matte Button */
+  .clay-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.03),
+      0 2px 4px -1px rgba(0, 0, 0, 0.02),
+      inset 0 2px 3px rgba(255, 255, 255, 0.9),
+      inset 0 -2px 3px rgba(0, 0, 0, 0.02);
+    border-radius: 16px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .clay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 16px -2px rgba(0, 0, 0, 0.05),
+      inset 0 2px 3px rgba(255, 255, 255, 0.9);
+  }
+
+  .clay-btn:active {
+    transform: translateY(1px);
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.02),
+      inset 0 2px 3px rgba(0, 0, 0, 0.03);
+  }
+
+  /* Dynamic Custom Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-scale-up {
+    animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+}
+
+/* Animations Definitions */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Breathing Rainbow Animations */
+@keyframes breathingExpand {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(108, 155, 207, 0.2);
+  }
+  33.33% {
+    transform: scale(1.6);
+    box-shadow: 0 0 50px rgba(167, 139, 250, 0.5);
+  }
+  66.66% {
+    transform: scale(1.6);
+    box-shadow: 0 0 50px rgba(167, 139, 250, 0.5);
+  }
+}
+
+.breathing-rainbow-animation {
+  /* 12 second loop: 4s expand (in), 4s hold, 4s contract (out) */
+  animation: breathingExpand 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Hide scrollbar default styles but allow scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
