@@ -349,12 +349,35 @@ export default function Landing() {
       </main>
 
       {/* Footer */}
-      <footer class="w-full bg-slate-50 border-t border-slate-100 py-6 text-center text-xs text-slate-400">
-        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>© {new Date().getFullYear()} MoodBuddy College Project. Build with ❤️.</p>
-          <p class="max-w-sm sm:text-right">
-            <strong>Disclaimer:</strong> MoodBuddy is a light-hearted, non-clinical supportive exercise tool. It is not intended for medical diagnoses or mental health crises.
-          </p>
+      <footer class="w-full bg-pink-50/40 border-t border-pink-100/50 py-8 text-slate-500">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col gap-6">
+          {/* Grid layout */}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start text-left">
+            {/* Left Column: Team and Authors */}
+            <div class="flex flex-col gap-2">
+              <h4 class="font-bold text-slate-800 text-sm tracking-wide">Developed by Team Spark4</h4>
+              <p class="text-xs text-slate-400">Created by a group of 4 dedicated members:</p>
+              <div class="flex flex-wrap gap-2 mt-1">
+                <span class="bg-white border border-slate-200 shadow-clay-btn text-xs text-slate-600 px-3 py-1 rounded-full font-semibold">Sakshi Shinde</span>
+                <span class="bg-white border border-slate-200 shadow-clay-btn text-xs text-slate-600 px-3 py-1 rounded-full font-semibold">Gauri Bankar</span>
+                <span class="bg-white border border-slate-200 shadow-clay-btn text-xs text-slate-600 px-3 py-1 rounded-full font-semibold">Sanjana Sapkal</span>
+                <span class="bg-white border border-slate-200 shadow-clay-btn text-xs text-slate-600 px-3 py-1 rounded-full font-semibold">Tejal Inamdar</span>
+              </div>
+            </div>
+            
+            {/* Right Column: Disclaimer */}
+            <div class="flex flex-col gap-2 md:text-right">
+              <h4 class="font-bold text-slate-800 text-sm tracking-wide">Disclaimer</h4>
+              <p class="text-xs text-slate-400 leading-relaxed max-w-md md:ml-auto">
+                MoodBuddy is a light-hearted, non-clinical supportive exercise tool. It is not intended for medical diagnoses or mental health crises.
+              </p>
+            </div>
+          </div>
+          
+          {/* Bottom Copyright line */}
+          <div class="border-t border-slate-200/50 pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400">
+            <p>© {new Date().getFullYear()} MoodBuddy. All rights reserved.</p>
+          </div>
         </div>
       </footer>
     </div>
