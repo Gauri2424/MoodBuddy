@@ -64,8 +64,8 @@ export default function BreathingRainbow() {
       {/* Breathing Sphere Area */}
       <div class="relative w-80 h-80 mx-auto flex items-center justify-center mb-10">
         {/* Outer Ring */}
-        <div class="absolute inset-0 rounded-full border-2 border-slate-100 scale-150"></div>
-        <div class="absolute inset-0 rounded-full border-2 border-slate-200/50 scale-100"></div>
+        <div class="absolute inset-0 rounded-full border-2 border-slate-100 scale-100"></div>
+        <div class="absolute inset-0 rounded-full border-2 border-slate-200/50 scale-75"></div>
 
         {/* Breathing Circle with dynamic gradients and scale transitions */}
         <div
