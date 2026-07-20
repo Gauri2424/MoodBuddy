@@ -4,7 +4,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
+// AWS Elastic Beanstalk expects port 8080 by default. 
+// We use process.env.PORT if defined, or fall back to 8080 for production deployment compatibility.
+const PORT = process.env.PORT || 8080;
 
 // Initialize database tables, then start listening
 const startServer = async () => {
