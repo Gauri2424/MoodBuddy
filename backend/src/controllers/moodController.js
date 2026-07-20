@@ -8,12 +8,13 @@ import { streamMoodAnalysis } from '../services/geminiService.js';
 export const analyzeMood = async (req, res, next) => {
   const { mood, color, tags, note } = req.body;
 
-  // Set SSE Headers
+  // Set SSE Headers with Nginx compression and buffering bypass
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
-    'Cache-Control': 'no-cache',
+    'Cache-Control': 'no-cache, no-transform', // 'no-transform' prevents Nginx/CloudFront gzip compression
     'Connection': 'keep-alive',
-    'X-Accel-Buffering': 'no', // Prevents buffering issues with proxies
+    'X-Accel-Buffering': 'no', // Prevents buffering issues with Nginx reverse proxies
+    'Content-Encoding': 'identity', // Explicitly tells Nginx not to compress this response
   });
 
   // Flush headers if the platform supports it
