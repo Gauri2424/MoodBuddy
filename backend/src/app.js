@@ -6,6 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import moodRouter from './routes/mood.js';
 import errorHandler from './middleware/errorHandler.js';
+import { query } from './database/db.js';
 
 dotenv.config();
 
@@ -20,10 +21,10 @@ app.use(helmet({
   contentSecurityPolicy: false, 
 }));
 
-// Configure CORS to only allow requests from the frontend client URL
-const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+// Configure CORS: allow specified CLIENT_URL or accept requests from the host
+const clientUrl = process.env.CLIENT_URL;
 app.use(cors({
-  origin: clientUrl,
+  origin: clientUrl ? clientUrl.split(',').map(url => url.trim()) : true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -32,9 +33,28 @@ app.use(cors({
 // Body parser
 app.use(express.json());
 
-// Base health check route
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok', message: 'MoodBuddy Backend is healthy' });
+// Health check route: checks both the server status and PostgreSQL database connection
+app.get('/api/health', async (req, res) => {
+  try {
+    await query('SELECT 1');
+    res.status(200).json({
+      status: 'ok',
+      database: 'connected',
+      message: 'MoodBuddy backend and PostgreSQL database are healthy',
+    });
+  } catch (dbErr) {
+    res.status(200).json({
+      status: 'ok',
+      database: 'disconnected',
+      dbError: dbErr.message,
+      message: 'MoodBuddy backend is running, but cannot connect to the PostgreSQL database.',
+      troubleshooting: {
+        cause1: 'DATABASE_URL is missing or still pointing to localhost in AWS environment properties.',
+        cause2: 'If using AWS RDS, verify the RDS Security Group Inbound Rule allows TCP port 5432.',
+        cause3: 'If database enforces SSL, ensure credentials and database endpoint are correct.',
+      },
+    });
+  }
 });
 
 // Register routers

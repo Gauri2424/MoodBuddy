@@ -81,7 +81,7 @@ export default function Dashboard() {
         }
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
-        setError('Failed to connect to the database. Make sure the backend server is running.');
+        setError(err.message || 'Failed to connect to the database. Make sure the backend server is running.');
       } finally {
         setLoading(false);
       }

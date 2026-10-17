@@ -13,6 +13,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Mobile Runtime Debugger -->
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        var errDiv = document.createElement('div');
+        errDiv.style.position = 'fixed';
+        errDiv.style.top = '0';
+        errDiv.style.left = '0';
+        errDiv.style.width = '100%';
+        errDiv.style.backgroundColor = '#be123c';
+        errDiv.style.color = '#ffffff';
+        errDiv.style.padding = '20px';
+        errDiv.style.zIndex = '999999';
+        errDiv.style.fontFamily = 'monospace';
+        errDiv.style.fontSize = '12px';
+        errDiv.style.wordBreak = 'break-all';
+        errDiv.style.boxShadow = '0 10px 15px rgba(0,0,0,0.1)';
+        errDiv.innerHTML = '<h3 style="font-weight:bold;margin-bottom:8px;">Mobile JS Crash Caught:</h3>' +
+                           '<p style="margin:2px 0;"><strong>Error:</strong> ' + msg + '</p>' +
+                           '<p style="margin:2px 0;"><strong>File:</strong> ' + url + '</p>' +
+                           '<p style="margin:2px 0;"><strong>Line/Col:</strong> ' + line + ':' + col + '</p>';
+        document.body.appendChild(errDiv);
+        return false;
+      };
+    </script>
   </head>
   <body class="bg-[#F8F9FD] text-slate-800 min-h-screen antialiased select-none font-sans">
     <div id="root"></div>

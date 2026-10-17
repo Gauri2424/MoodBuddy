@@ -58,7 +58,7 @@ export const analyzeMood = async (req, res, next) => {
         } catch (dbError) {
           console.error('Error saving mood entry to database:', dbError);
           // Still finish the stream so the client gets the full message
-          res.write(`data: ${JSON.stringify({ done: true, error: 'Database save failed, but message streamed.' })}\n\n`);
+          res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
           res.end();
         }
       },

@@ -12,9 +12,18 @@ if (!databaseUrl) {
   process.exit(1);
 }
 
-// Create connection pool
+// Detect if connecting to a remote/cloud PostgreSQL database (e.g. AWS RDS, Neon, Supabase)
+// Cloud databases require an encrypted SSL connection
+const isRemoteDb = Boolean(
+  databaseUrl &&
+  !databaseUrl.includes('localhost') &&
+  !databaseUrl.includes('127.0.0.1')
+);
+
+// Create connection pool with conditional SSL
 const pool = new Pool({
   connectionString: databaseUrl,
+  ssl: isRemoteDb ? { rejectUnauthorized: false } : false,
 });
 
 // Helper for running queries
